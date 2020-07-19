@@ -1,0 +1,62 @@
+.container {
+  position: relative;
+  width: 50%;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.middle {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  bottom: 100%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.container:hover .image {
+  opacity: 0.3;
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
+
+.btn {
+  margin-left: 20px;
+}
+
+.spinner {
+  margin-top: 6rem;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+
+.card {
+  text-align: center;
+}
+
+/* .layout {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 100vh;
+  text-align: center;
+  justify-content: center;
+} */
+
+.listInfoContainer {
+  text-align: center;
+  margin-top: 30px;
+}

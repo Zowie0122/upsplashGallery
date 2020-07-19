@@ -1,30 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <img src="./search.gif" width="750" title="Share your fire">
+</p>
+
+<p align="center">
+  <img src="./favpage.gif" width="750" title="Share your fire">
+</p>
 
 ## Getting Started
 
-First, run the development server:
+Git clone the repository
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Create a file under the root folder named next.config.js
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Inside of the next.config.js,add the followings with your own Unsplash client key and MongoDB key.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+module.exports = {
+env: {
+MONGO_URI:
+"mongodb+srv://<your user name>:<your password>@cluster0.xq62e.mongodb.net/<your db name>?retryWrites=true&w=majority",
+UNSPLASH_API_KEY: <your client key>,
+},
+};
 
-## Learn More
+If you want to limit how many photos you fetch from Unsplash, you can replace "1" with the number you prefer in index.js line 36.
 
-To learn more about Next.js, take a look at the following resources:
+Save the file run command Yarn and Yarn Dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Go to localhost:3000
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Q&A
 
-## Deploy on Vercel
+Q :○ Do you have any strong rationale for why you chose specific development technologies for
+this project that you would like to share with the team?
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A :I prefered to use MongoDB instead of web browser local storage. Since it is what the team is using and also as the data grow bigger, the speed may go down.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Q: ○ Do you have any strong rationale for why you made specific design decisions (software
+architecture design) over alternatives?
+
+A: Within limited time, I wanted to set up the server as quick as possible, that is why I chose Next.js, since it is very easy and quick to set up a server.
+
+Q: ○ Do you have any strong rationale for why you made specific implementation decisions over
+alternatives?
+
+A: I did not made specific implementation. I added Narbar only, to make user easier to switch to different pages.
+
+Q: ○ [Optional] What else would you like to improve if you have more time? This can be in simple
+format like a TODO bullet points
+
+A: I would like to display the gallery in slides and 3D. I would also like to improve the UI/UX.
+
+Q: ○ [Optional] If you feel like there are things you’d like to implement and/or fix, feel free to add a
+TODO section in your documentation
+
+A: - Remove a list
+
+- Add user login
