@@ -9,12 +9,9 @@ const ListSchema = new mongoose.Schema({
   list_description: {
     type: String,
   },
-  savedImages: [
+  saved_Images: [
     {
       image_name: {
-        type: String,
-      },
-      image_description: {
         type: String,
       },
       image_url: {

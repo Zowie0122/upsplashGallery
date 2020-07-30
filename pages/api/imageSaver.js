@@ -18,10 +18,10 @@ export default async (req, res) => {
           list = await List.create({
             list_name: req.body.list_name,
             list_description: req.body.list_description,
-            savedImages: newImage,
+            saved_Images: newImage,
           });
         } else {
-          list.savedImages.push(newImage);
+          list.saved_Images.push(newImage);
         }
         await list.save();
         res.status(200).json({ data: list });

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
 import Navbar from "./Navbar";
-import { Spinner } from "react-bootstrap";
+
+import Sprinnerdots from "./Spinner";
 
 // // if Use lazy and Suspense
 
@@ -60,11 +61,7 @@ export default function Gallery() {
       },
     }).then((res) => {
       res.json().then((res) => {
-        const listsArray = [];
-        for (const list of res.data) {
-          listsArray.push(list);
-        }
-        setData(listsArray);
+        if (res.data) setData(res.data);
       });
     });
   }, []);
@@ -72,15 +69,7 @@ export default function Gallery() {
   return (
     <div>
       <Navbar />
-      {data.length !== 0 ? (
-        <ImageCards data={data} />
-      ) : (
-        <div className="spinner">
-          <Spinner animation="grow" variant="dark" />
-          <Spinner animation="grow" variant="dark" />
-          <Spinner animation="grow" variant="dark" />
-        </div>
-      )}
+      {data.length !== 0 ? <ImageCards data={data} /> : <Sprinnerdots />}
     </div>
   );
 }

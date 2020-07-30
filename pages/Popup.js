@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, FormControl, Form } from "react-bootstrap";
 
-export default function Content({
-  showModal,
-  setShowModal,
-
-  selectedImageURL,
-}) {
+export default function Popup({ showModal, setShowModal, selectedImageURL }) {
   const [selectedList, setSelectedList] = useState("");
   const [description, setDescription] = useState(null);
   const [favouriteLists, setFavouriteLists] = useState([]);
@@ -20,14 +15,10 @@ export default function Content({
       },
     }).then((res) => {
       res.json().then((res) => {
-        const listsArray = [];
-        for (const list of res.data) {
-          listsArray.push(list.list_name);
-        }
-        setFavouriteLists(listsArray);
+        setFavouriteLists(res.data.map((list) => list.list_name));
       });
     });
-  }, []);
+  }, [showModal]);
 
   const saveToList = (list, description, url) => {
     if (list !== "") {
@@ -47,7 +38,9 @@ export default function Content({
             setShowModal(false);
           });
         })
-        .catch((error) => {});
+        .catch((error) => {
+          setError("Opps, server error");
+        });
     } else {
       setError("Please select an existing list or add a one.");
     }
@@ -66,7 +59,6 @@ export default function Content({
                 onChange={(e) => setSelectedList(e.target.value)}
               >
                 <option></option>
-
                 {favouriteLists.map((ele) => (
                   <option value={ele}>{ele}</option>
                 ))}
@@ -95,11 +87,11 @@ export default function Content({
               />
             </Form.Group>
           </Form>
-          {error !== null ? (
+          {error !== null && (
             <div className="alert alert-danger" role="alert">
               {error}
             </div>
-          ) : null}
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button

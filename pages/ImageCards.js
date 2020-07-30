@@ -1,22 +1,13 @@
-import {
-  CardDeck,
-  Card,
-  CardGroup,
-  Container,
-  Button,
-  InputGroup,
-  FormControl,
-  Jumbotron,
-} from "react-bootstrap";
+import { Container, Button, Jumbotron } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { saveAs } from "file-saver";
 import Router from "next/router";
+import ListPopup from "./editListPopup";
 
 export default function ImageCard({ data }) {
-  const [isInput, setIsInput] = useState(false);
-  const [newDescription, setNewDescription] = useState("");
-  const [newTitle, setNewTitle] = useState("");
+  const [isInput, setIsInput] = useState();
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleSave = (id, listname, description) => {
     if (listname !== "") {
@@ -37,10 +28,33 @@ export default function ImageCard({ data }) {
             Router.reload(window.location.pathname);
           });
         })
-        .catch((error) => {});
+        .catch(() => {
+          setError("Opps, server error ");
+        });
     } else {
       setError("List title can not be empty");
     }
+  };
+
+  const handleRemove = (listId, imageId) => {
+    fetch("http://localhost:3000/api/removeImage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        list_id: listId,
+        image_id: imageId,
+      }),
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.ok) setShowModal(false);
+        Router.reload(window.location.pathname);
+      })
+      .catch(() => {
+        setError("Opps, server error ");
+      });
   };
 
   return (
@@ -49,101 +63,66 @@ export default function ImageCard({ data }) {
         return (
           <div>
             <Jumbotron className="listInfoContainer">
-              <h2> {list.list_name}</h2>
-              {isInput === list._id ? (
-                <InputGroup>
-                  <InputGroup.Prepend>
-                    <InputGroup.Text>New title</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    as="textarea"
-                    aria-label="With textarea"
-                    onChange={(e) => {
-                      setNewTitle(e.target.value);
-                    }}
-                  />
-                </InputGroup>
-              ) : null}
-
+              <h2>{list.list_name}</h2>
               <p>{list.list_description}</p>
-
-              {isInput === list._id ? (
-                <InputGroup>
-                  <InputGroup.Prepend>
-                    <InputGroup.Text>New Description</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    as="textarea"
-                    aria-label="With textarea"
-                    onChange={(e) => {
-                      setNewDescription(e.target.value);
-                    }}
-                  />
-                </InputGroup>
-              ) : null}
-
-              <Button
-                variant="warning"
-                onClick={() => {
-                  setIsInput(list._id);
-                }}
-              >
-                Edit Description
-              </Button>
-              {isInput === list._id ? (
+              <div class="list-edit-button">
+                {" "}
                 <Button
-                  variant="info"
+                  variant="warning"
                   onClick={() => {
-                    handleSave(list._id, newTitle, newDescription);
+                    setIsInput(list._id);
+                    setShowModal(true);
                   }}
                 >
-                  Save
+                  Edit Description
                 </Button>
-              ) : null}
+              </div>
 
-              {isInput === list._id ? (
-                <Button
-                  variant="dark"
-                  onClick={() => {
-                    setNewTitle(list.list_name);
-                    setNewDescription(list.list_description);
-                    setIsInput(false);
-                  }}
-                >
-                  Cancel
-                </Button>
-              ) : null}
-              {error !== null ? (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              ) : null}
+              {isInput === list._id && showModal && (
+                <ListPopup
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                  handleSave={handleSave}
+                  list={list}
+                  error={error}
+                  setError={setError}
+                />
+              )}
             </Jumbotron>
             <Container>
-              {list.savedImages.map((image) => {
-                return (
-                  <CardDeck className="card">
-                    <Card>
-                      <Card.Img
-                        variant="top"
-                        src={image.image_url}
-                        className="cardImage"
-                      />
-
-                      <Card.Footer>
-                        <Button
-                          className="btn btn-dark"
-                          onClick={() => {
-                            saveAs(image.image_url + ".jpeg", image._id);
-                          }}
-                        >
-                          Download
-                        </Button>
-                      </Card.Footer>
-                    </Card>
-                  </CardDeck>
-                );
-              })}
+              <div className="gallery-container">
+                {list.saved_Images.map((image) => {
+                  return (
+                    <div id={image.id} className="image-container">
+                      <img class="gallery-image" src={image.image_url} />
+                      <table class="gallery-table">
+                        <tr>
+                          <td>
+                            <button
+                              className="btn btn-dark"
+                              onClick={() => {
+                                saveAs(image.image_url + ".jpeg", image.id);
+                              }}
+                            >
+                              Download
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-warning"
+                              onClick={() => {
+                                handleRemove(list._id, image._id);
+                              }}
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  );
+                })}
+              </div>
             </Container>
           </div>
         );

@@ -1,4 +1,3 @@
-//get all the info of all the lists
 import dbConnect from "../../utils/dbConnect";
 const List = require("../../models/List");
 
@@ -7,10 +6,18 @@ dbConnect();
 export default async (req, res) => {
   const { method } = req;
   switch (method) {
-    case "GET":
+    case "POST":
       try {
-        const lists = await List.find({});
-        res.status(200).json({ data: lists });
+        await List.update(
+          {
+            _id: req.body.list_id,
+          },
+          {
+            $pull: { saved_Images: { _id: req.body.image_id } },
+          }
+        );
+
+        res.status(200).json({ messsage: "removed" });
       } catch (error) {
         res.status(400).json({ message: "server error" });
       }

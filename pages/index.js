@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { saveAs } from "file-saver";
 import Navbar from "./Navbar";
-import Content from "./Content";
+import Popup from "./Popup";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -48,41 +48,39 @@ export default function Home() {
       <main>
         <Navbar setInput={setInput} />
 
-        {data.length !== 0
-          ? data.map((image) => (
-              <div id={image.id} className="container">
-                <img src={image.urls.regular} className="image" />
+        {data.length !== 0 &&
+          data.map((image) => (
+            <div id={image.id} className="container">
+              <img src={image.urls.regular} className="image" />
 
-                <table class="middle">
-                  <tr>
-                    <td>
-                      <button
-                        className="btn btn-dark"
-                        onClick={() => {
-                          saveAs(image.urls.raw + ".jpeg", image.id);
-                        }}
-                      >
-                        Download
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-warning"
-                        onClick={() => {
-                          setShowModal(true);
-                          setSelectedImageURL(image.urls.regular);
-                        }}
-                      >
-                        Save
-                      </button>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            ))
-          : null}
-
-        <Content
+              <table class="middle">
+                <tr>
+                  <td>
+                    <button
+                      className="btn btn-dark"
+                      onClick={() => {
+                        saveAs(image.urls.raw + ".jpeg", image.id);
+                      }}
+                    >
+                      Download
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-warning"
+                      onClick={() => {
+                        setShowModal(true);
+                        setSelectedImageURL(image.urls.regular);
+                      }}
+                    >
+                      Save
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          ))}
+        <Popup
           showModal={showModal}
           setShowModal={setShowModal}
           selectedImageURL={selectedImageURL}

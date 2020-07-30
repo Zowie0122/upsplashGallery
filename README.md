@@ -53,4 +53,4 @@ A: I would like to display the gallery in slides and 3D. I would also like to im
 Q: [Optional] If you feel like there are things you’d like to implement and/or fix, feel free to add a
 TODO section in your documentation
 
-A: - Remove a list - Add user login
+A: - Remove a list - Add user login 
