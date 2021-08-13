@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "file-saver": "^2.0.2",
     "mongoose": "^5.9.24",
-    "next": "9.4.4",
+    "next": "11.1.0",
     "node-sass": "^4.14.1",
     "react": "16.13.1",
     "react-bootstrap": "^1.2.2",
