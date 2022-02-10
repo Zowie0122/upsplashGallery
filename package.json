@@ -13,7 +13,7 @@
     "file-saver": "^2.0.2",
     "mongoose": "^5.9.24",
     "next": "9.4.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "16.13.1",
     "react-bootstrap": "^1.2.2",
     "react-dom": "16.13.1"
